@@ -21,9 +21,9 @@ function getReviews(){
 
 function getReview(appId,page){
     if(page==1){
-        var url = 'https://itunes.apple.com/us/rss/customerreviews/id='+appId+'/sortby=mostrecent/xml'
+        var url = 'https://itunes.apple.com/rss/customerreviews/id='+appId+'/sortby=mostrecent/xml'
     }else {
-        var url = 'https://itunes.apple.com/us/rss/customerreviews/page='+page+'/id='+appId+'/sortby=mostrecent/xml'
+        var url = 'https://itunes.apple.com/rss/customerreviews/page='+page+'/id='+appId+'/sortby=mostrecent/xml'
     }
     $.ajax({
       dataType: "xml",
@@ -34,11 +34,12 @@ function getReview(appId,page){
         $(xml).find('feed').each(function(){
             $(this).find("entry").each(function(){
                var rating = $(this).find("rating").text();
+               var version = $(this).find("version").text();
                $(this).find("content").each(function(){
                       var tableRegex = /<table/;
                       var reviewText = $(this).text();
                       if(!tableRegex.test(reviewText)) {
-                            $('#reviews tbody').append('<tr><td>'+rating+'</td><td>'+reviewText+'</td></tr>');
+                            $('#reviews tbody').append('<tr><td>'+version+'</td><td>'+rating+'</td><td>'+reviewText+'</td></tr>');
                       }
                 });
             });
@@ -57,7 +58,7 @@ function getReview(appId,page){
 <body>
 App id <input type="text" id="appid" value="403570762"> <button onclick="getReviews()">Get Reviews</button>
 <table id="reviews">
-<thead><tr><td>rating</td><td>review</td></tr></thead>
+<thead><tr><td>version</td><td>rating</td><td>review</td></tr></thead>
 <tbody><tr></tr></tbody>
 </table>
 </body>
