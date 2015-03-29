@@ -1,0 +1,63 @@
+<head>
+<style>
+table { border-collapse: collapse; }
+table td {
+    border-bottom-style: solid;
+    border-bottom-color: #DCDCDC;
+    border-bottom-width: 1px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
+
+}
+</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript">
+function getReviews(){
+    $('#reviews tbody').empty();
+    var appId = $("#appid").val();
+    getReview(appId,1);
+}
+
+function getReview(appId,page){
+    if(page==1){
+        var url = 'https://itunes.apple.com/us/rss/customerreviews/id='+appId+'/sortby=mostrecent/xml'
+    }else {
+        var url = 'https://itunes.apple.com/us/rss/customerreviews/page='+page+'/id='+appId+'/sortby=mostrecent/xml'
+    }
+    $.ajax({
+      dataType: "xml",
+      url: url,
+      data: "",
+      success: function( xml ) {
+
+        $(xml).find('feed').each(function(){
+            $(this).find("entry").each(function(){
+               var rating = $(this).find("rating").text();
+               $(this).find("content").each(function(){
+                      var tableRegex = /<table/;
+                      var reviewText = $(this).text();
+                      if(!tableRegex.test(reviewText)) {
+                            $('#reviews tbody').append('<tr><td>'+rating+'</td><td>'+reviewText+'</td></tr>');
+                      }
+                });
+            });
+        });
+
+        if(page < 10){
+            getReview(appId, ++page)
+        }
+      }
+    });
+}
+
+</script>
+</head>
+
+<body>
+App id <input type="text" id="appid" value="403570762"> <button onclick="getReviews()">Get Reviews</button>
+<table id="reviews">
+<thead><tr><td>rating</td><td>review</td></tr></thead>
+<tbody><tr></tr></tbody>
+</table>
+</body>
