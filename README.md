@@ -2,4 +2,4 @@
 displays itunes reviews for an app
 
 
-USe it at [simon-fortelny.com](http://www.simon-fortelny.com/tools/itunesReviews.html)
+Use it at [simon-fortelny.com/tools/itunesReviews.html](http://www.simon-fortelny.com/tools/itunesReviews.html)
