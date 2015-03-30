@@ -21,9 +21,9 @@ function getReviews(){
 
 function getReview(appId,page){
     if(page==1){
-        var url = 'https://itunes.apple.com/rss/customerreviews/id='+appId+'/sortby=mostrecent/xml'
+        var url = 'https://itunes.apple.com/us/rss/customerreviews/id='+appId+'/currentVersion/xml'
     }else {
-        var url = 'https://itunes.apple.com/rss/customerreviews/page='+page+'/id='+appId+'/sortby=mostrecent/xml'
+        var url = 'https://itunes.apple.com/us/rss/customerreviews/page='+page+'/id='+appId+'/currentVersion/xml'
     }
     $.ajax({
       dataType: "xml",
